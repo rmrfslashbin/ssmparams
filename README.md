@@ -1,6 +1,8 @@
 # ssmParams
 Ready-to-go AWS SSM Paramater Store helper functions
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/rmrfslashbin/ssmParams.svg)](https://pkg.go.dev/github.com/rmrfslashbin/ssmParams)
+
 ## Configuration
 This module expects a configured AWS credentials file with a default profile. See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html for more details
 
