@@ -21,16 +21,18 @@ type SSMParams struct {
 }
 
 // New sets up AWS auth and binds to an SSM client.
-func (s *SSMParams) New() error {
+func New() (*SSMParams, error) {
+	ssmParams := &SSMParams{}
+
 	// Load config from ENV or .aws credentials file.
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
-		return err
+		return ssmParams, err
 	}
 
 	// Create a new ssm client.
-	s.client = ssm.NewFromConfig(cfg)
-	return nil
+	ssmParams.client = ssm.NewFromConfig(cfg)
+	return ssmParams, nil
 }
 
 // GetParam fetches the specified ssm param and returns
