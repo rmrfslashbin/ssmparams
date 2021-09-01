@@ -25,6 +25,7 @@ func New() (*SSMParams, error) {
 	ssmParams := &SSMParams{}
 
 	// Load config from ENV or .aws credentials file.
+	// TODO: Add funtionality for different auth methods.
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return ssmParams, err
