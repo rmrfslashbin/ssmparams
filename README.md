@@ -1,13 +1,10 @@
 # ssmParams
-Ready-to-go AWS SSM Paramater Store helper functions
+[ssmParams](https://github.com/rmrfslashbin/ssmParams) provides a simple method to asynchronosly fetch parameters from the [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html).
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/rmrfslashbin/ssmParams.svg)](https://pkg.go.dev/github.com/rmrfslashbin/ssmParams)
 
 ## Configuration
-This module expects a configured AWS credentials file with a default profile. See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html for more details
-
-## Use
-See example. ssmParams.GetParam(string) will asynchronously fetch SSM Parameter Store values.
+This module expects a configured AWS credentials file with a default profile. See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html for more details.
 
 ## Example
 ```
