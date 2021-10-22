@@ -1,4 +1,4 @@
-module github.com/rmrfslashbin/ssmParams
+module github.com/rmrfslashbin/ssmparams
 
 go 1.16
 
