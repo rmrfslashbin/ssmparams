@@ -1,4 +1,4 @@
-// Amazon Web Services (AWS) Systems Manager (formerly known as SSM) Parameter Store services.
+// Package ssmparams queries Amazon Web Services (AWS) Systems Manager (formerly known as SSM) Parameter Store services.
 package ssmparams
 
 import (
