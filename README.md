@@ -1,7 +1,7 @@
-# ssmParams
-[ssmParams](https://github.com/rmrfslashbin/ssmParams) provides a simple method to asynchronosly fetch parameters from the [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html).
+# ssmparams
+[ssmparams](https://github.com/rmrfslashbin/ssmparams) provides a simple method to asynchronosly fetch parameters from the [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html).
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/rmrfslashbin/ssmParams.svg)](https://pkg.go.dev/github.com/rmrfslashbin/ssmParams)
+[![Go Reference](https://pkg.go.dev/badge/github.com/rmrfslashbin/ssmparams.svg)](https://pkg.go.dev/github.com/rmrfslashbin/ssmparams)
 
 ## Configuration
 This module expects a configured AWS credentials file with a default profile. See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html for more details.
@@ -12,12 +12,12 @@ package main
 
 import (
     "fmt"
-    "github.com/rmrfslashbin/ssmParams"
+    "github.com/rmrfslashbin/ssmparams"
 )
 
 func main() {
     // Create new SSMParams struct.
-	ssmps := ssmParams.SSMParams{}
+	ssmps := ssmparams.SSMParams{}
 	if err := ssmps.New(); err != nil {
 		// Bail out on error.
         panic(err)
