@@ -1,5 +1,5 @@
 // Amazon Web Services (AWS) Systems Manager (formerly known as SSM) Parameter Store services.
-package ssmParams
+package ssmparams
 
 import (
 	"context"
@@ -22,18 +22,18 @@ type SSMParams struct {
 
 // New sets up AWS auth and binds to an SSM client.
 func New() (*SSMParams, error) {
-	ssmParams := &SSMParams{}
+	ssmparams := &SSMParams{}
 
 	// Load config from ENV or .aws credentials file.
 	// TODO: Add funtionality for different auth methods.
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
-		return ssmParams, err
+		return ssmparams, err
 	}
 
 	// Create a new ssm client.
-	ssmParams.client = ssm.NewFromConfig(cfg)
-	return ssmParams, nil
+	ssmparams.client = ssm.NewFromConfig(cfg)
+	return ssmparams, nil
 }
 
 // GetParam fetches the specified ssm param and returns
