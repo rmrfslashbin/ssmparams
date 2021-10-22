@@ -1,6 +1,9 @@
 # ssmparams
 [ssmparams](https://github.com/rmrfslashbin/ssmparams) provides a simple method to asynchronosly fetch parameters from the [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html).
 
+[![Go](https://github.com/rmrfslashbin/ssmparams/actions/workflows/go.yml/badge.svg)](https://github.com/rmrfslashbin/ssmparams/actions/workflows/go.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rmrfslashbin/ssmparams)](https://goreportcard.com/report/github.com/rmrfslashbin/ssmparams)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/rmrfslashbin/ssmparams)
 [![Go Reference](https://pkg.go.dev/badge/github.com/rmrfslashbin/ssmparams.svg)](https://pkg.go.dev/github.com/rmrfslashbin/ssmparams)
 
 ## Configuration
