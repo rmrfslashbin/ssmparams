@@ -1,45 +1,52 @@
-# ssmparams
-[ssmparams](https://github.com/rmrfslashbin/ssmparams) provides a simple method to asynchronosly fetch parameters from the [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html).
+# base-go
+Base layout for Go projects
 
-[![Go](https://github.com/rmrfslashbin/ssmparams/actions/workflows/go.yml/badge.svg)](https://github.com/rmrfslashbin/ssmparams/actions/workflows/go.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/rmrfslashbin/ssmparams)](https://goreportcard.com/report/github.com/rmrfslashbin/ssmparams)
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/rmrfslashbin/ssmparams)
-[![Go Reference](https://pkg.go.dev/badge/github.com/rmrfslashbin/ssmparams.svg)](https://pkg.go.dev/github.com/rmrfslashbin/ssmparams)
-
-## Configuration
-This module expects a configured AWS credentials file with a default profile. See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html for more details.
-
-## Example
+## Layout
 ```
-package main
+.
+├── bin
+│   ├── base-go-linux-x86_64
+│   └── base-go-linux-x86_64.sha256
+├── cmd
+│   ├── go-base
+│   │   ├── main.go
+│   │   └── main_test.go
+│   └── hello
+│       ├── main.go
+│       └── main_test.go
+├── Dockerfile
+├── go.mod
+├── go.sum
+├── internal
+│   ├── internal.go
+│   └── internal_test.go
+├── LICENSE
+├── Makefile
+├── pkg
+│   ├── sharable.go
+│   └── sharable_test.go
+└── README.md
+```
 
-import (
-    "fmt"
-    "github.com/rmrfslashbin/ssmparams"
-)
+## Makefile
+The makefile is a work in progress. Current targets:
+- default: run.
+- build: build all cmds in ./cmd/...
+- docker-build: builds a docker image.
+- install: build all cmds in ./cmd/...
+- run: runs `go run cmd/hello/main.go`.
+- test: runs `go test ./...`
+- tidy: runs `go mod tidy`.
+- update: attemtps to update go modules.
 
-func main() {
-    // Create new SSMParams struct.
-	ssmps := ssmparams.SSMParams{}
-	if err := ssmps.New(); err != nil {
-		// Bail out on error.
-        panic(err)
-	}
+## Dockerfile
+The `Dockerfile` is based on https://hub.docker.com/_/golang/. After building an image it can be run:
+```
+% run -it --rm github.com/rmrfslashbin/base-go:latest hello
+Hello, world.
 
-    // Fetch a named paramerter from the Parameter Store.
-    // Returns a channel while fetching data.
-	ch := ssmps.GetParam("/some/nifty/param")
-
-    // Block, waiting for channel to return data.
-	clientID := <-ch
-	if clientID.Err != nil {
-		panic(clientID.Err)
-	}
-
-    // Print data and values fetehed from the Parameter store.
-	fmt.Printf("Name:               %v\n", *clientID.ParameterOutput.Parameter.Name)
-	fmt.Printf("Value:              %v\n", *clientID.ParameterOutput.Parameter.Value)
-	fmt.Printf("Type:               %v\n", clientID.ParameterOutput.Parameter.Type)
-	fmt.Printf("Last Modified Date: %v\n", clientID.ParameterOutput.Parameter.LastModifiedDate)
-}
+% docker run -it --rm github.com/rmrfslashbin/base-go go-base -error
+hi, I'm internal!
+hi, I'm exportable!
+FATA[2021-11-07T17:43:36Z]/go/src/app/cmd/go-base/main.go:39 main.main.func1() main crashed error="i'm an error"
 ```
