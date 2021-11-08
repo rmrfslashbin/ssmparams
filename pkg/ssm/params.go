@@ -81,10 +81,14 @@ func (config *Config) GetParams(paramNames []string) (map[string]interface{}, []
 		return nil, []string{}, err
 	}
 
-	output := make(map[string]interface{})
+	output := make(map[string]interface{}, len(params.Parameters))
 
 	for _, v := range params.Parameters {
 		output[*v.Name] = *v.Value
 	}
 	return output, params.InvalidParameters, nil
+}
+
+func (config *Config) PutParam(params *ssm.PutParameterInput) (*ssm.PutParameterOutput, error) {
+	return config.client.PutParameter(context.TODO(), params)
 }

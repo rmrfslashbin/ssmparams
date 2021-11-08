@@ -3,6 +3,7 @@ package cmds
 import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/rmrfslashbin/ssm-things/pkg/ssm"
+	"github.com/sirupsen/logrus"
 )
 
 func runGetCmd() error {
@@ -21,11 +22,13 @@ func runGetCmd() error {
 		return err
 	}
 	if len(ip) > 0 {
-		log.Error(spew.Sdump(ip))
+		log.WithFields(logrus.Fields{
+			"params": ip,
+		}).Error("parameter(s) not found")
 	}
-	//log.Info(spew.Sdump(p.Parameters))
-
-	spew.Dump(ps)
+	if len(ps) > 0 {
+		spew.Dump(ps)
+	}
 
 	return nil
 }
