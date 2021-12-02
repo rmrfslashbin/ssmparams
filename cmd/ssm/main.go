@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/rmrfslashbin/ssm-things/pkg/cmds"
+	"github.com/rmrfslashbin/ssmparams/pkg/cmds"
 	"github.com/sirupsen/logrus"
 )
 

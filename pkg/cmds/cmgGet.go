@@ -2,7 +2,7 @@ package cmds
 
 import (
 	"github.com/davecgh/go-spew/spew"
-	"github.com/rmrfslashbin/ssm-things/pkg/ssm"
+	"github.com/rmrfslashbin/ssmparams/pkg/ssm"
 	"github.com/sirupsen/logrus"
 )
 
