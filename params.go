@@ -1,5 +1,5 @@
 // Package ssmparams queries Amazon Web Services (AWS) Systems Manager (formerly known as SSM) Parameter Store services.
-package ssm
+package ssmparams
 
 import (
 	"context"
