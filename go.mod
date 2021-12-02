@@ -1,4 +1,4 @@
-module github.com/rmrfslashbin/ssm-things
+module github.com/rmrfslashbin/ssmparams
 
 go 1.17
 

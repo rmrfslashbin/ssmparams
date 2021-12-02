@@ -14,7 +14,6 @@ This module expects a configured AWS credentials file with a default profile. Se
 package main
 
 import (
-    "fmt"
     "github.com/rmrfslashbin/ssmparams"
 )
 
