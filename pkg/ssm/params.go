@@ -6,7 +6,6 @@ import (
 
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
-	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 )
 
 // Used to manage varidic options
@@ -62,15 +61,6 @@ func SetProfile(profile string) Option {
 	return func(config *Config) {
 		config.profile = profile
 	}
-}
-
-// GetParam fetches the specified ssm param and returns
-func (config *Config) GetParam(paramName string) (*types.Parameter, error) {
-	// Fetch the value from AWS ssm.
-	parameterOutput, err := config.client.GetParameter(context.TODO(), &ssm.GetParameterInput{
-		Name: &paramName,
-	})
-	return parameterOutput.Parameter, err
 }
 
 func (config *Config) GetParams(paramNames []string) (map[string]interface{}, []string, error) {
