@@ -14,33 +14,46 @@ This module expects a configured AWS credentials file with a default profile. Se
 package main
 
 import (
-    "github.com/rmrfslashbin/ssmparams"
+	"github.com/davecgh/go-spew/spew"
+	"github.com/rmrfslashbin/ssmparams"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
 	// awscli profile name
 	awsProfile := "default"
 	awsRegion := "us-east-1"
-	
-    params, err := ssm.New(
-		ssm.SetProfile(awsProfile),
-		ssm.SetRegion(awsRegion),
+
+	// Set up a new ssmparams client
+	params, err := ssmparams.New(
+		ssmparams.SetProfile(awsProfile),
+		ssmparams.SetRegion(awsRegion),
 	)
 	if err != nil {
 		panic(err)
 	}
 
-	mapOfReturnParams, InvalidParameters, err := params.GetParams(flags.param)
-	if err != nil {
-		return err
+	// Set up a string slice of parameter names to retrieve
+	request := []string{
+		"/first/param/to/request/secret",
+		"/first/param/to/request/secret",
+		"/second/param/to/request",
 	}
-	if len(InvalidParameters) > 0 {
-		log.WithFields(logrus.Fields{
-			"params": InvalidParameters,
+
+	// Retrieve the parameters
+	outputs, err := params.GetParams(request)
+	if err != nil {
+		panic(err)
+	}
+
+	// Check if invalid parameters were returned
+	if len(outputs.InvalidParameters) > 0 {
+		logrus.WithFields(logrus.Fields{
+			"params": outputs.InvalidParameters,
 		}).Error("parameter(s) not found")
 	}
-	if len(mapOfReturnParams) > 0 {
-		spew.Dump(mapOfReturnParams)
-	}
+
+	// Dump the output
+	spew.Dump(outputs.Parameters)
 }
 ```
