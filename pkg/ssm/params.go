@@ -8,6 +8,15 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
 )
 
+// ParamOutput is the output of the GetParam function.
+type ParamOutput struct {
+	// Parameters is a map of parameter names to values.
+	Parameters map[string]interface{}
+
+	// InvalidParameters is a list of parameter names that were not found.
+	InvalidParameters []string
+}
+
 // Used to manage varidic options
 type Option func(config *Config)
 
@@ -36,6 +45,7 @@ func New(opts ...func(*Config)) (*Config, error) {
 		opt(config)
 	}
 
+	// Create the AWS config
 	cfg, err := awsconfig.LoadDefaultConfig(context.TODO(),
 		awsconfig.WithRegion(config.region),
 		awsconfig.WithSharedConfigProfile(config.profile),
@@ -44,6 +54,7 @@ func New(opts ...func(*Config)) (*Config, error) {
 		return nil, err
 	}
 
+	// Create the AWS ssm client
 	config.client = ssm.NewFromConfig(cfg)
 
 	return config, nil
@@ -63,22 +74,31 @@ func SetProfile(profile string) Option {
 	}
 }
 
-func (config *Config) GetParams(paramNames []string) (map[string]interface{}, []string, error) {
+// GetParam gets a parameter from AWS Parameter Store.
+func (config *Config) GetParams(paramNames []string) (*ParamOutput, error) {
+	// Fetch the requested parameters
 	params, err := config.client.GetParameters(context.TODO(), &ssm.GetParametersInput{
 		Names: paramNames,
 	})
+
+	// Bail out on error
 	if err != nil {
-		return nil, []string{}, err
+		return nil, err
 	}
 
+	// Setup a map to store the valid parameters
 	output := make(map[string]interface{}, len(params.Parameters))
 
+	// Loop through the parameters and store them in the map
 	for _, v := range params.Parameters {
 		output[*v.Name] = *v.Value
 	}
-	return output, params.InvalidParameters, nil
+
+	// Done!
+	return &ParamOutput{Parameters: output, InvalidParameters: params.InvalidParameters}, nil
 }
 
+// PutParam puts a parameter into AWS Parameter Store.
 func (config *Config) PutParam(params *ssm.PutParameterInput) (*ssm.PutParameterOutput, error) {
 	return config.client.PutParameter(context.TODO(), params)
 }

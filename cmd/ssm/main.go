@@ -16,5 +16,7 @@ func main() {
 			}).Fatal("main crashed")
 		}
 	}()
+
+	// Run the CLI
 	cmds.Execute()
 }

@@ -19,27 +19,29 @@ import (
 )
 
 func main() {
-    // Create new SSMParams struct.
-	ssmps := ssmparams.SSMParams{}
-	if err := ssmps.New(); err != nil {
-		// Bail out on error.
-        panic(err)
+	// awscli profile name
+	awsProfile := "default"
+	awsRegion := "us-east-1"
+	
+    params, err := ssm.New(
+		ssm.SetProfile(awsProfile),
+		ssm.SetRegion(awsRegion),
+	)
+	if err != nil {
+		panic(err)
 	}
 
-    // Fetch a named paramerter from the Parameter Store.
-    // Returns a channel while fetching data.
-	ch := ssmps.GetParam("/some/nifty/param")
-
-    // Block, waiting for channel to return data.
-	clientID := <-ch
-	if clientID.Err != nil {
-		panic(clientID.Err)
+	mapOfReturnParams, InvalidParameters, err := params.GetParams(flags.param)
+	if err != nil {
+		return err
 	}
-
-    // Print data and values fetehed from the Parameter store.
-	fmt.Printf("Name:               %v\n", *clientID.ParameterOutput.Parameter.Name)
-	fmt.Printf("Value:              %v\n", *clientID.ParameterOutput.Parameter.Value)
-	fmt.Printf("Type:               %v\n", clientID.ParameterOutput.Parameter.Type)
-	fmt.Printf("Last Modified Date: %v\n", clientID.ParameterOutput.Parameter.LastModifiedDate)
+	if len(InvalidParameters) > 0 {
+		log.WithFields(logrus.Fields{
+			"params": InvalidParameters,
+		}).Error("parameter(s) not found")
+	}
+	if len(mapOfReturnParams) > 0 {
+		spew.Dump(mapOfReturnParams)
+	}
 }
 ```

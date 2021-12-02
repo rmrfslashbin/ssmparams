@@ -1,5 +1,7 @@
 package cmds
 
+// Package cmds implements the cli
+
 import (
 	"os"
 
@@ -50,6 +52,7 @@ var (
 		},
 	}
 
+	// cmdGet is the "get" command
 	cmdGet = &cobra.Command{
 		Use:   "get",
 		Short: "get param",
